@@ -4,52 +4,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Table</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* body {
+        background-color: rgb(64, 151, 166);
+    } */
+
+    .container {
+        /* border: 3px solid black; */
+        width: 450px;
+        padding: 20px;
+        margin: auto;
+        display: block;
+    }
+
+    h1 {
+        font-family: sans-serif;
+        font-weight: 500;
+        /* color: white; */
+        font-size: 1.9rem;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        background-color: grey;
+        color: black;
+        width: 100%;
+        height: 30px;
+        border: none;
+        border-radius: 10px;
+    }
+
+    label {
+        font-family: sans-serif;
+        font-size: 13px;
+        line-height: 35px;
+        /* color: white; */
+    }
+
+    input {
+        padding: 10px;
+        width: 100%;
+        /* color: black; */
+        border: 1px solid black;
+        font-size: 12px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        /* border: none; */
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        /* border: none; */
+    }
+
+    option {
+        font-family: serif;
+        border: none;
+        /* background-color: ; */
+    }
+
+    .list {
+        margin-top: 25px;
+        display: flex;
+        font-family: sans-serif;
+        font-size: 14px;
+        /* gap: 20px; */
+        color: white;
+        font-weight: 600;
+        justify-content: space-evenly;
+
+    }
+
+    .list span {
+        background-color: blue;
+        color: white;
+    }
+</style>
 
 <body>
 
-    <input type="text" id="text">
-    <button id="btn">click</button>
-    <p id="lass"></p>
+    <div class="container">
+        <div>
+            <h1>Student Information Table</h1>
+        </div>
+        <div>
+            <label for="">Name:</label>
+            <input id="userName" type="text" placeholder="Enter your name here">
+
+            <label for="">Number:</label>
+            <input id="number" type="number" placeholder="Your number here">
 
 
+            <label for="">Gender:</label>
+            <select id="Gender">
+                <option value="">Select your gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
 
-    <input type="number" name="number" id="number">
-    <button id="check">Check</button>
+            <button class="btn" id="btnAdd">Add</button>
+
+            <label for="">Search:</label>
+            <input type="text" placeholder="Search" id="search">
+        </div>
+
+    </div>
+
+ 
+        <table class="table table-striped," style="margin: auto; width: 700px;">
+            <thead">
+                <tr>
+                    <th scope="col">S/N</th>
+                    <th scope="col">Student Name</th>
+                    <th scope="col">PhoneNumber</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">search</th>
+
+                </tr>
+                </thead>
+                <tbody id="display">
+
+
+                </tbody>
+        </table>
+
+
+    <!-- <div id="output" class="style"></div> -->
+
     <script>
-        // let text = document.getElementById("text").value;
-        // let btn = document.getElementById("btn");
-        // let Glass = document.getElementById("lass");-
+        let students = [];
 
-        // btn.addEventListener("click", () => {
-        //  document.getElementById("lass").innerHTML = document.getElementById("text").value;
-        //     // lass.innerHTML = text.value
-        //     // console.log(text.innerHTML.value);
+        let displayStudentsEl = document.getElementById("display");
+        let searchInput = document.getElementById("search");
 
-        // });
+        function addStudent() {
 
-        let userInp = document.getElementById("number").value;
-        let btn = document.getElementById("check");
+            let userNameInp = document.getElementById("userName").value;
+            let userNumber = document.getElementById("number").value;
+            let userGender = document.getElementById("Gender").value;
 
-        btn.addEventListener("click", ()=>{
-            if (userInp >= 18) {
-                document.getElementById("lass").innerHTML = "You are eligible"
-            }
-             else if (userInp < 18) {
-                  document.getElementById("lass").innerHTML = "You are not eligible"
-            }
 
-          
 
-          
-         
+            let student = {
+                name: userNameInp,
+                phoneNumber: userNumber,
+                gender: userGender,
+            };
+
+            students.push(student);
+
+            document.getElementById("userName").value = "";
+            document.getElementById("number").value = "";
+            document.getElementById("Gender").value = "";
+
+            displayStudents();
+        }
+
+        document.getElementById("btnAdd").addEventListener("click", addStudent);
+
+        function displayStudents(list = students) {
+            displayStudentsEl.innerHTML = "";
+
+            list.forEach((student, index) => {
+                displayStudentsEl.innerHTML += `
+            <tr>
+                <th>${index + 1}</th>
+                <td>${student.name}</td>
+                <td>${student.phoneNumber}</td>
+                <td>${student.gender}</td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="deleteStudent(${index})">Delete</button>
+                </td>
+            </tr>
+        `;
+            });
+        }
+
+        function deleteStudent(index) {
+            students.splice(index, 1);
+            displayStudents();
+        }
+
+        searchInput.addEventListener("input", function () {
+            let newSearch = searchInput.value.toLowerCase();
+
+            let searchStudent = students.filter(student =>
+                student.name.toLowerCase().includes(newSearch) ||
+                student.phoneNumber.includes(newSearch)  ||
+                student.gender.includes(newSearch)
+            );
+
+            displayStudents(searchStudent);
         });
 
 
 
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
