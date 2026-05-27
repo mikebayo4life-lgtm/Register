@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input type="text" id="text">
+    <button id="btn">click</button>
+    <p id="lass"></p>
+
+
+
+    <input type="number" name="number" id="number">
+    <button id="check">Check</button>
+    <script>
+        // let text = document.getElementById("text").value;
+        // let btn = document.getElementById("btn");
+        // let Glass = document.getElementById("lass");-
+
+        // btn.addEventListener("click", () => {
+        //  document.getElementById("lass").innerHTML = document.getElementById("text").value;
+        //     // lass.innerHTML = text.value
+        //     // console.log(text.innerHTML.value);
+
+        // });
+
+        let userInp = document.getElementById("number").value;
+        let btn = document.getElementById("check");
+
+        btn.addEventListener("click", ()=>{
+            if (userInp >= 18) {
+                document.getElementById("lass").innerHTML = "You are eligible"
+            }
+             else if (userInp < 18) {
+                  document.getElementById("lass").innerHTML = "You are not eligible"
+            }
+
+          
+
+          
+         
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>
